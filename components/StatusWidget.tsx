@@ -1,0 +1,1 @@
+export default function StatusWidget(){return <div></div>}
