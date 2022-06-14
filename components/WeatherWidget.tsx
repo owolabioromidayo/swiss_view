@@ -31,7 +31,6 @@ export default function WeatherWidget(){
     
     const imSize = useBreakpointValue({base: "100%", md:"100px", sm:"80px"})
 
-
     return(
         <Container left="0px" height="100%"  marginTop="10px" marginBottom="3%">
             <Flex

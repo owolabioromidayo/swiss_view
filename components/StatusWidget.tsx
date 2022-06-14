@@ -1,6 +1,5 @@
 import { Container} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { GetServerSideProps } from "next";
 
 const axios = require('axios');
 
