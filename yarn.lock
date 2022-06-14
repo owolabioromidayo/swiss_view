@@ -374,6 +374,21 @@
   dependencies:
     "@chakra-ui/utils" "2.0.0"
 
+"@chakra-ui/icon@3.0.2":
+  "integrity" "sha512-sas37byldn5O/TTIKHzxHBujEYqVPXegisoMqutLtF60fpXnb62aG1JTyorXSG3zJxJWQW7+AvjbOGyWKHXc0Q=="
+  "resolved" "https://registry.npmjs.org/@chakra-ui/icon/-/icon-3.0.2.tgz"
+  "version" "3.0.2"
+  dependencies:
+    "@chakra-ui/utils" "2.0.2"
+
+"@chakra-ui/icons@^2.0.2":
+  "integrity" "sha512-UY7vP8E5pv2a4sd1SiezgVbmq1/tRfnehk6PatunrTvGMxQNhSKJJoiRI/wCtUfMoMz+yp9+ekc1ksJVCnokRg=="
+  "resolved" "https://registry.npmjs.org/@chakra-ui/icons/-/icons-2.0.2.tgz"
+  "version" "2.0.2"
+  dependencies:
+    "@chakra-ui/icon" "3.0.2"
+    "@types/react" "^18.0.1"
+
 "@chakra-ui/image@2.0.1":
   "integrity" "sha512-ne9dNaw8mUwgCw0G1zZnbdmj2e/DUTmc5MQVs20HYucUjwvaO41EHm424TgPSuv5Fbm55aUe68h644hl+n36cQ=="
   "resolved" "https://registry.npmjs.org/@chakra-ui/image/-/image-2.0.1.tgz"
@@ -756,6 +771,16 @@
     "framesync" "5.3.0"
     "lodash.mergewith" "4.6.2"
 
+"@chakra-ui/utils@2.0.2":
+  "integrity" "sha512-9AC/ir9zm0shgFG7kdzOKUH2Wx5VB71M3uRMEsMZf75YlhhiU7AvBNtWXnJu+CBiTi41rKa5A+2ImMOsuPfGbA=="
+  "resolved" "https://registry.npmjs.org/@chakra-ui/utils/-/utils-2.0.2.tgz"
+  "version" "2.0.2"
+  dependencies:
+    "@types/lodash.mergewith" "4.6.6"
+    "css-box-model" "1.2.1"
+    "framesync" "5.3.0"
+    "lodash.mergewith" "4.6.2"
+
 "@chakra-ui/visually-hidden@2.0.0":
   "integrity" "sha512-o59l8OTM2e48i8e6+xW/D4Fx/2w/X34uizfXHi2r8c0WMOPVDKglX64mIf3dP89eNZ1MrtcT6VTXALKy7TzpkA=="
   "resolved" "https://registry.npmjs.org/@chakra-ui/visually-hidden/-/visually-hidden-2.0.0.tgz"
@@ -1093,7 +1118,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^16.9.0 || ^17.0.0 || ^18.0.0", "@types/react@18.0.8":
+"@types/react@*", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^16.9.0 || ^17.0.0 || ^18.0.0", "@types/react@^18.0.1", "@types/react@18.0.8":
   "integrity" "sha512-+j2hk9BzCOrrOSJASi5XiOyBbERk9jG5O73Ya4M0env5Ixi6vUNli4qy994AINcEF+1IEHISYFfIT4zwr++LKw=="
   "resolved" "https://registry.npmjs.org/@types/react/-/react-18.0.8.tgz"
   "version" "18.0.8"
@@ -2050,6 +2075,11 @@
     "eventemitter3" "^4.0.4"
     "prop-types" "^15.7.2"
 
+"google-maps-react@^2.0.6":
+  "integrity" "sha512-M8Eo9WndfQEfxcmm6yRq03qdJgw1x6rQmJ9DN+a+xPQ3K7yNDGkVDbinrf4/8vcox7nELbeopbm4bpefKewWfQ=="
+  "resolved" "https://registry.npmjs.org/google-maps-react/-/google-maps-react-2.0.6.tgz"
+  "version" "2.0.6"
+
 "has-bigints@^1.0.1", "has-bigints@^1.0.2":
   "integrity" "sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ=="
   "resolved" "https://registry.npmjs.org/has-bigints/-/has-bigints-1.0.2.tgz"
@@ -2668,7 +2698,7 @@
   dependencies:
     "@babel/runtime" "^7.12.13"
 
-"react-dom@^16.0.0 || ^17.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@^18.0.0", "react-dom@^18.1.0", "react-dom@>=16.8 || ^17.0.0 || ^18.0.0", "react-dom@>=18":
+"react-dom@^16.0.0 || ^17.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@^18.0.0", "react-dom@^18.1.0", "react-dom@>=16.8 || ^17.0.0 || ^18.0.0", "react-dom@>=18", "react-dom@~0.14.8 || ^15.0.0 || ^16.0.0":
   "integrity" "sha512-fU1Txz7Budmvamp7bshe4Zi32d0ll7ect+ccxNu9FlObT605GOEB8BfO4tmRJ39R5Zj831VCpvQ05QPBW5yb+w=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.1.0.tgz"
   "version" "18.1.0"
@@ -2738,7 +2768,7 @@
     "invariant" "^2.2.4"
     "tslib" "^2.0.0"
 
-"react@*", "react@^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.0.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", "react@^18.0.0", "react@^18.1.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.8 || ^17.0.0 || ^18.0.0", "react@>=16.8.0", "react@>=18":
+"react@*", "react@^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.0.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", "react@^18.0.0", "react@^18.1.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.8 || ^17.0.0 || ^18.0.0", "react@>=16.8.0", "react@>=18", "react@~0.14.8 || ^15.0.0 || ^16.0.0":
   "integrity" "sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.1.0.tgz"
   "version" "18.1.0"

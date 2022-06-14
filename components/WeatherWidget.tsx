@@ -1,11 +1,14 @@
 import { Flex, Container, Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import Image from "next/image"
+import { useBreakpointValue } from '@chakra-ui/react'
+
 
 const axios = require('axios');
 
 export default function WeatherWidget(){
     const [data, setData] = useState({
-        icon_image_url : undefined,
+        icon_image_url : "",
         label : undefined,
         wind_speed : undefined,
         wind_direction : undefined,
@@ -18,22 +21,28 @@ export default function WeatherWidget(){
     useEffect( () => {
         axios({
             method: 'get',
-            url: "http://127.0.0.1:5000/weather",
+            url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/weather`,
             withCredentials: false
         }).then( (res:any) => {
                 setData(res.data);
             })
         }, [])
 
+    
+    const imSize = useBreakpointValue({base: "100%", md:"100px", sm:"80px"})
+
 
     return(
-        <Container>
+        <Container left="0px" height="100%"  marginTop="10px" marginBottom="3%">
             <Flex
-            backgroundColor="blue.100"
-            direction={{ base: 'column', md: 'row' }}
+            backgroundColor="#e7e7e7"
+            paddingBottom="10px"
+            paddingTop="10px"
+            direction={{ base: 'column', md: 'row', sm: "row" }}
             >
                 <Flex direction="column">
-                    <img src={data?.icon_image_url} alt={data?.label} ></img>
+                    <Image src={`${process.env.NEXT_PUBLIC_REST_ENDPOINT}/weather_img`} alt={data?.label} 
+                    width={imSize} height={imSize}/>
                     <p>{data?.label}</p>
                 </Flex>
                 <Flex direction="column" px="10%">
@@ -45,6 +54,10 @@ export default function WeatherWidget(){
                 </Flex>
 
             </Flex>
+            <h4 style={{
+                height: "20%",
+                backgroundColor: "lightgray"
+            }}>Weather Widget</h4>
         </Container>
     )
 }

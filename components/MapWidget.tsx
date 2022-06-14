@@ -1,26 +1,23 @@
-import {Box} from '@chakra-ui/react'
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import {Map, GoogleApiWrapper, Marker} from 'google-maps-react';
 
-export default function MapWidget(){
-    const lat: number = 7.441042
-    const long: number  = 3.892104
-
+ let MapContainer = (props:any) => {
+    const lat: number = parseFloat(process.env.NEXT_PUBLIC_LATITUDE || '');
+    const lng: number = parseFloat(process.env.NEXT_PUBLIC_LONGITUDE || '');
     return(
-     <Box w="100%" style={{height: "300px", overflow: "hidden"}} border="8px solid">
-            <MapContainer center={[lat, long]} zoom={13} scrollWheelZoom={true} >
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <Marker position={[lat, long]}>
-                    <Popup>
-                    Weather Station is<br /> here.
-                    </Popup>
-                </Marker>
-            </MapContainer>
-     </Box>
-    // <div style={{width: "100%", height: "300px", overflow: "hidden", border: "8px solid" }} id="map"></div>
-
-    
+        <Map
+            google = {props.google}
+            zoom= {20}
+            style={{width: "80%", height :"30%", float: "top"}}
+            initialCenter = {
+                {lat, lng}
+            }
+        >
+            <Marker name={"Weather Station"} 
+                posiition={{lat, lng}}/>
+        </Map>
     )
 }
+
+export default GoogleApiWrapper({
+    apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''
+})(MapContainer)
