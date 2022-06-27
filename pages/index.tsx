@@ -48,7 +48,6 @@ const Home:NextPage = () => {
                     <MLWidget />
                 </Flex>
 
-
                 <DataView />
                 {/* <Flex direction="row" px="5%"
                 style = {{
@@ -65,7 +64,7 @@ const Home:NextPage = () => {
                         margin: "20px",
                         height: "20%"
                     }}>
-                        {/* <MapWidget /> */}
+                        <MapWidget />
                     </div>
             </Flex>
         </Flex>}

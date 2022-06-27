@@ -1,6 +1,8 @@
 import { 
     Flex, 
     Menu, 
+    Center,
+    IconButton,
     MenuButton, 
     MenuItem, 
     MenuList, 
@@ -9,8 +11,7 @@ import {
     Th,
     Td,
     Button,
-    StylesProvider,
-    useMultiStyleConfig,
+    Table,
  } from "@chakra-ui/react";
 
 import {
@@ -26,7 +27,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { Line } from 'react-chartjs-2';
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 
 const axios = require('axios');
 ChartJS.register(
@@ -43,8 +44,9 @@ type GraphData = {
         ext_temp : number[],
         baro_pressure: number[],
         wind_speed : number[],
-        wind_direction: number[],
         humidity : number[],
+        gas_resistance: number[],
+        battery_percentage: number[],
 }
 
 function Graph({labels, data, title, options}: {labels: any[], data: number[], title: string, options: any}){
@@ -62,12 +64,20 @@ function Graph({labels, data, title, options}: {labels: any[], data: number[], t
 }
 
 function Graphs({labels, data, options}: 
-    {labels: any[], data: GraphData, options:any}){
+    {labels: Date[], data: GraphData, options:any}){
+        let newLabels: string[] = [];
+        labels.forEach((value: Date, index: number) => {
+            if (index % 15 == 0){
+                newLabels.push(value.toDateString().slice(4))
+            }else{
+                newLabels.push("")
+            }
+        })
     return (<div style={{
     }}>
-           {Object.keys(data).map((key, index) => 
+           {Object.keys(data).filter(k => k != "datetime").map((key, index) => 
                 <Graph 
-                    labels={labels}
+                    labels={newLabels}
                     data={data[key]}
                     title={key}
                     options={options}
@@ -76,52 +86,78 @@ function Graphs({labels, data, options}:
     </div>)
 }
 
-function Table({data}: {data: GraphData}){
-    const styles = useMultiStyleConfig('Table', {});
-    return(
-        <StylesProvider value={styles}>
+function TableView({data, labels}: {data: GraphData, labels: Date[]}){
+    const pageRows = 20;
+    const maxPages = Math.ceil(labels.length / pageRows);
+    const [pageNumber, setPageNumber] = useState<number>(1);
 
-            <TableContainer variant='striped'  style={{
-                marginLeft: "auto",
-                marginRight: "auto"
-                // width: "70%"
-            }} >
+    const pageTurn = (side: number) => {
+       
+        if (side == -1){ //left
+            (pageNumber == 1) ? pageNumber : setPageNumber(pageNumber-1)
+        }else {//right
+            (pageNumber == maxPages) ? pageNumber : setPageNumber(pageNumber+1)
+        }
+    }
+
+    return(
+        <div>
+            <TableContainer >
+                <Table variant="simple">
                     <Tr>
                         <Th> S/N </Th>
-                        <Th> ext_temp </Th>
+                        <Th>datetime</Th>
+                        <Th> ext_temp</Th>
                         <Th> baro_pressure</Th>
                         <Th> wind_speed </Th>
-                        <Th> wind_direction </Th>
+                        <Th> battery_percentage </Th>
+                        <Th> gas_resistance</Th>
                     </Tr>
 
-                        { data.ext_temp.map(( val , index) => {
+                        { data.ext_temp
+                        .filter((_,v) =>  (pageNumber-1)*pageRows-1 < v  && v < pageNumber*pageRows )
+                        .map(( _,index) => {
+                                let nIndex = index + (pageNumber-1)*pageRows;
                                 return (
-                                <Tr key={index}>
-                                    <Td> {index} </Td>
-                                    <Td> {data.ext_temp[index]} </Td>
-                                    <Td> {data.baro_pressure[index]} </Td>
-                                    <Td> {data.wind_speed[index]} </Td>
-                                    <Td> {data.wind_direction[index]}</Td>
+                                <Tr key={nIndex} backgroundColor={ (nIndex % 2 === 1)?"#6dc7c4" : "white"}>
+                                    <Td> {nIndex+1} </Td>
+                                    <Td>{labels[nIndex].toDateString()}</Td>
+                                    <Td> {data.ext_temp[nIndex]} </Td>
+                                    <Td> {data.baro_pressure[nIndex]} </Td>
+                                    <Td> {data.wind_speed[nIndex]} </Td>
+                                    <Td> {data.battery_percentage[nIndex]} </Td>
+                                    <Td> {data.gas_resistance[nIndex]} </Td>
                                 </Tr>
                                 )
-
-                            })
-
-                        }
+                            })}
+                </Table>
             </TableContainer> 
-        </StylesProvider>
+            
+            <Center backgroundColor="lightgray" w="100%" >
+
+                <IconButton aria-label="left-page-turn" backgroundColor="lightgray" 
+                icon={<ArrowBackIcon />} onClick={() => pageTurn(-1)} w={6} h={6} />
+
+                &nbsp;&nbsp;{pageNumber} / {maxPages} pages &nbsp;&nbsp;
+
+                <IconButton aria-label="right-page-turn" backgroundColor="lightgray" 
+                icon={<ArrowForwardIcon />} onClick={() => pageTurn(1)} w={6} h={6}/>
+            </Center>
+    
+        </div>
     )
 }
 
 export default function DataView(){
-    const [labels, setLabels] = useState<any[]>([]);
+    const [labels, setLabels] = useState<Date[]>([]);
     const [isTable, setIsTable] = useState<boolean>(false);
     const [data, setData] = useState<GraphData>({
         ext_temp : [],
         baro_pressure: [],
         wind_speed : [],
-        wind_direction: [],
         humidity : [],
+        gas_resistance: [],
+        battery_percentage: [],
     });
 
 
@@ -133,8 +169,7 @@ export default function DataView(){
         }).then( (res:any) => {
                 let recv : GraphData = res.data;
                 setData(recv);
-                setLabels([...Array(recv.ext_temp.length).keys()]); //temporary (data is not yet time labelled)
-
+                setLabels(res.data.datetime.map(k => new Date(k))); 
             })
         }, [])
 
@@ -149,25 +184,36 @@ export default function DataView(){
                     text: '',
                 },
             },
+            scales: {
+                x: {
+                    ticks: {
+                        align: "center",
+                        maxRotation: 0,
+                        minRotation: 0
+                    }
+                }
+            }
         };
         
     return(
-        <Flex  direction="column" margin="10% 10% 2% 10%" padding="0px">
+        <Flex  direction="column" margin="0% 10% 2% 10%" padding="10% 0px 30px 0px">
             <div style={{
                 backgroundColor: "#e7e7e7",
                 width: "100%",
                 position: "relative"
             }}>
                 <Menu>
-                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>Views</MenuButton>
+                    <MenuButton backgroundColor="lightgray" borderRadius="0px" 
+                        as={Button} rightIcon={<ChevronDownIcon />}>Views</MenuButton>
                     <MenuList>
-                        <MenuItem onClick={() => setIsTable(true)}>Table</MenuItem>
                         <MenuItem onClick={() => setIsTable(false)}>Graphs</MenuItem>
+                        <MenuItem onClick={() => setIsTable(true)}>Table</MenuItem>
                     </MenuList>
                 </Menu>
 
                 <Menu>
-                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>Filter By</MenuButton>
+                    <MenuButton backgroundColor="lightgray"  borderRadius="0px"
+                        as={Button} rightIcon={<ChevronDownIcon />}>Filter By</MenuButton>
                     <MenuList>
                         <MenuItem> Week</MenuItem>
                         <MenuItem> Month</MenuItem>
@@ -178,7 +224,7 @@ export default function DataView(){
             </div>
 
            {isTable ? 
-           <Table data={data}/> 
+           <Center><TableView data={data} labels={labels}/></Center>
            : <Graphs  
                 labels={labels}
                 data={data}

@@ -1,5 +1,6 @@
 import { Container} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { Switch } from '@chakra-ui/react'
 
 const axios = require('axios');
 
@@ -8,9 +9,29 @@ export default function StatusWidget(){
         last_update_time : undefined, 
         station_status : undefined,
         update_frequency: undefined, 
-        uptime : undefined, 
+        uptime : 0, 
         battery_percentage: undefined 
     });
+
+    const [mode, setMode] = useState<string>("");
+    const [disableToggle, setDisableToggle] = useState<boolean>(true);
+    const [switchIsChecked, setSwitchIsChecked] = useState<boolean>(false);
+
+    const toggleMode = () => {
+        setTimeout(() => setDisableToggle(true), 100);
+        axios({
+            method: 'post',
+            url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/toggle_mode`,
+            withCredentials: false
+        }).then((res: any) => {
+            if(mode == "machine_learning"){
+                setMode("weather_api")
+            }else{
+                setMode("machine_learning")
+            }
+        })
+        setTimeout(() => setDisableToggle(false), 2000);
+    }
 
     useEffect(() => {
         axios({
@@ -20,7 +41,25 @@ export default function StatusWidget(){
         }).then((res: any) => {
             setData(res.data);
         })
+        axios({
+            method: 'get',
+            url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/get_mode`,
+            withCredentials: false
+        }).then((res: any) => {
+            setMode(res.data);
+            setDisableToggle(false);
+        })
     }, [])
+
+
+    useEffect(() => {
+        if(mode == "machine_learning"){
+            setSwitchIsChecked(true);
+        }else{
+            setSwitchIsChecked(false);
+        }
+    }, 
+    [mode])
 
     return (
         <Container marginTop="10px" marginBottom="4%">
@@ -45,12 +84,22 @@ export default function StatusWidget(){
                     /> }
                 <p>Status: {data?.station_status}</p>
                 <p>Last Updated: {data?.last_update_time}</p>
-                <p>Uptime: {data?.uptime} </p>
-                <p>Battery Percentage: {data?.battery_percentage} </p>
-                <p>Update Frequency: {data?.update_frequency} mins </p>
+                <p>Uptime: {(data.uptime / 60).toFixed(2)} hours </p>
+                <p>Battery Percentage: {data?.battery_percentage}% </p>
+                <p>Update Frequency: {data?.update_frequency} </p>
+
+                <p>
+                    Machine Learning &nbsp;&nbsp;
+                    <Switch 
+                    size="md"
+                    defaultChecked={mode == "machine_learning"} 
+                    onChange={toggleMode} isDisabled={disableToggle}
+                    isChecked={switchIsChecked}
+                    />     
+                </p>
             </div>
             <h4 style={{
-                height: "20%",
+                height: "40px",
                 backgroundColor: "lightgray"
             }}>Status Widget</h4>
         </Container>
