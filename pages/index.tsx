@@ -7,20 +7,78 @@ import WeatherWidget from "../components/WeatherWidget"
 import dynamic from 'next/dynamic'
 import DataView from "../components/DataView";
 import { useState, useEffect } from 'react';
-import WelcomeScreen from "../components/WelcomeScreen"
+import WelcomeScreen from "../components/WelcomeScreen";
+import GasResistanceWidget from "../components/GasResistanceWidget";
 import StatusWidget from '../components/StatusWidget';
 import Script from "next/script"
 
+const axios = require('axios');
 
 const Home:NextPage = () => {
     const MapWidget = dynamic(() => import('../components/MapWidget'), {
         ssr: false
       })
 
-    const [welcome, setWelcome] = useState<boolean>(false);
+    const [welcome, setWelcome] = useState<boolean>(true);
+    const [gasResistance, setGasResistance] = useState<number>(0);
+    
+
+    const [mlData, setMLData] = useState({
+        accuracy: undefined,
+        description: undefined,
+        last_update_time: undefined,
+        n_samples_used: undefined
+    });
+
+    const [weatherData, setWeatherData] = useState({
+        icon_image_url : "",
+        label : undefined,
+        wind_speed : undefined,
+        wind_direction : undefined,
+        baro_pressure : undefined,
+        ext_temp: undefined,
+        humidity: undefined,
+        uv: undefined
+    });
+
+    const [statusData, setStatusData] = useState({
+        last_update_time : undefined, 
+        station_status : undefined,
+        update_frequency: undefined, 
+        uptime : 0, 
+        battery_percentage: undefined 
+    });
+
+
 
     useEffect(() => {
-        setTimeout(() => setWelcome(false), 1000);
+        axios({
+            method: 'get',
+            url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/ml_info`,
+            withCredentials: false
+        }).then((res: any) => {
+            setMLData(res.data);
+        })
+
+        axios({
+            method: 'get',
+            url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/weather`,
+            withCredentials: false
+        }).then( (res:any) => {
+                setWeatherData(res.data);
+                setGasResistance(res.data.gas_resistance);
+            })
+
+        axios({
+            method: 'get',
+            url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/status`,
+            withCredentials: false
+        }).then((res: any) => {
+            setStatusData(res.data);
+        })
+
+        // setTimeout(() => setWelcome(false), 1000);
+        setWelcome(false); //Open after all fetches complete
     }, [])
 
     return(
@@ -43,9 +101,16 @@ const Home:NextPage = () => {
                 <Flex 
                 w={{base: "auto", md: "100%", lg: "100%"}}
                 direction={{base: "column", md: "column", lg: "row"}}>
-                    <WeatherWidget />
-                    <StatusWidget />
-                    <MLWidget />
+                    <WeatherWidget data={weatherData} />
+                    <StatusWidget data={statusData} />
+                    <MLWidget data={mlData} />
+                </Flex>
+
+                
+                <Flex 
+                w={{base: "auto", md: "100%", lg: "100%"}}
+                direction={{base: "column", md: "column", lg: "row"}}>
+                    <GasResistanceWidget gasResistance={gasResistance}/>
                 </Flex>
 
                 <DataView />

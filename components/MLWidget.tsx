@@ -7,15 +7,7 @@ import Image from "next/image"
 
 const axios = require('axios');
 
-export default function MLWidget() {
-    const [data, setData] = useState({
-        accuracy: undefined,
-        description: undefined,
-        // datetime: undefined,
-        // confusion_matrix: undefined,
-        last_update_time: undefined,
-        n_samples_used: undefined
-    });
+export default function MLWidget({data}: {data: any}) {
 
     const [input, setInput] = useState<string>('0');
 
@@ -40,14 +32,6 @@ export default function MLWidget() {
     }
 
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/ml_info`,
-            withCredentials: false
-        }).then((res: any) => {
-            setData(res.data);
-        })
-
         axios({
             method: 'get',
             url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/get_training_freq`,

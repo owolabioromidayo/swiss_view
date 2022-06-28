@@ -4,14 +4,8 @@ import { Switch } from '@chakra-ui/react'
 
 const axios = require('axios');
 
-export default function StatusWidget(){
-    const [data, setData] = useState({
-        last_update_time : undefined, 
-        station_status : undefined,
-        update_frequency: undefined, 
-        uptime : 0, 
-        battery_percentage: undefined 
-    });
+export default function StatusWidget({data}: {data: any}){
+
 
     const [mode, setMode] = useState<string>("");
     const [disableToggle, setDisableToggle] = useState<boolean>(true);
@@ -36,18 +30,11 @@ export default function StatusWidget(){
     useEffect(() => {
         axios({
             method: 'get',
-            url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/status`,
-            withCredentials: false
-        }).then((res: any) => {
-            setData(res.data);
-        })
-        axios({
-            method: 'get',
             url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/get_mode`,
             withCredentials: false
         }).then((res: any) => {
             setMode(res.data);
-            setDisableToggle(false);
+            setDisableToggle(false)
         })
     }, [])
 
@@ -95,7 +82,8 @@ export default function StatusWidget(){
                     defaultChecked={mode == "machine_learning"} 
                     onChange={toggleMode} isDisabled={disableToggle}
                     isChecked={switchIsChecked}
-                    />     
+                    />
+                    
                 </p>
             </div>
             <h4 style={{

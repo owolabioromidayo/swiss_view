@@ -1,34 +1,8 @@
-import { Flex, Container, Box } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Flex, Container } from "@chakra-ui/react";
 import Image from "next/image"
 import { useBreakpointValue } from '@chakra-ui/react'
 
-
-const axios = require('axios');
-
-export default function WeatherWidget(){
-    const [data, setData] = useState({
-        icon_image_url : "",
-        label : undefined,
-        wind_speed : undefined,
-        wind_direction : undefined,
-        baro_pressure : undefined,
-        ext_temp: undefined,
-        humidity: undefined,
-        uv: undefined
-    });
-
-    useEffect( () => {
-        axios({
-            method: 'get',
-            url: ` ${process.env.NEXT_PUBLIC_REST_ENDPOINT}/weather`,
-            withCredentials: false
-        }).then( (res:any) => {
-                setData(res.data);
-            })
-        }, [])
-
-    
+export default function WeatherWidget({data}: {data: any}){
     const imSize = useBreakpointValue({base: "100%", md:"100px", sm:"80px"})
 
     return(
