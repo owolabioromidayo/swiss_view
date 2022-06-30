@@ -2,45 +2,45 @@ import { Center, Container } from '@chakra-ui/react';
 import {useEffect, useState} from 'react';
 
 
-export default function GasResistanceWidget({gasResistance} : {gasResistance : number}){
+export default function UVWidget({data} : {data : number}){
     const TextDetails = [{
-            text: "Good!",
+            text: "Low!",
             color: "#46eb34",
-            qualifier :"Very Good"
+            qualifier :"No Protection Needed."
         },
         {
-            text: "Average",
-            color: "#dceb34",
-            qualifier :"Ok"
+            text: "Moderate",
+            color: "##f2d03a",
+            qualifier :"Protection Needed. Seek shade."
         },
         {
-            text: "Not Good",
-            color: "#ebc034",
-            qualifier :"Not Good"
+            text: "High",
+            color: "#db6d1f",
+            qualifier :"Put on Sunscreen."
         },
         {
-            text: "Bad!",
-            color: "#eb8334",
-            qualifier :"Bad"
+            text: "Very High",
+            color: "#b81113",
+            qualifier :"Extra Protection needed. More sunscreen."
         },
         {
-            text: "Dangerous!!",
-            color: "#eb5634",
-            qualifier :"Dangerous!!"
+            text: "Extreme",
+            color: "#a72ab5",
+            qualifier :"Very High Levels. Use a lot of sunscreen."
         }]
 
-    const breakPoints = [50,100,150,300,500];
+    const breakPoints = [2, 5, 7, 10];
     const [textProps, setTextProps] = useState<number>(0);
 
     useEffect(() => {
         let id = 0;
         breakPoints.forEach((val) => {
-            if (gasResistance >= val){
+            if (data > val){
                 id++;
             }
         })
         setTextProps(Math.min(id,4));
-    }, [gasResistance])
+    }, [data])
 
     return( 
     
@@ -69,10 +69,10 @@ export default function GasResistanceWidget({gasResistance} : {gasResistance : n
                     </Center>
                         <br />
                     <Center>
-                        <p>Air quality is <b>{TextDetails[textProps].qualifier}</b>.</p> 
+                        <p>UV Level is on <b>{data}</b>/11. </p> 
                     </Center>
                     <Center>
-                        <p><b>{parseInt(gasResistance.toFixed())}</b>/500</p>
+                        <p><b>{TextDetails[textProps].qualifier}</b></p>
                     </Center>
                 </div>
 
@@ -81,7 +81,7 @@ export default function GasResistanceWidget({gasResistance} : {gasResistance : n
                 backgroundColor: "lightgray",
                 fontWeight: 'bold',
                 fontSize: "17px"
-            }}>Air Quality Widget</h4>
+            }}>UV Widget</h4>
         </Container>
     )
     

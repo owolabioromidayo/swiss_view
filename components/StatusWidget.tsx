@@ -4,7 +4,7 @@ import { Switch } from '@chakra-ui/react'
 
 const axios = require('axios');
 
-export default function StatusWidget({data}: {data: any}){
+export default function StatusWidget({data, setNotification}: {data: any, setNotification: any}){
 
 
     const [mode, setMode] = useState<string>("");
@@ -24,6 +24,7 @@ export default function StatusWidget({data}: {data: any}){
                 setMode("machine_learning")
             }
         })
+        setTimeout(() => setNotification({message: null, type: "notif"}), 500);
         setTimeout(() => setDisableToggle(false), 2000);
     }
 
@@ -35,6 +36,10 @@ export default function StatusWidget({data}: {data: any}){
         }).then((res: any) => {
             setMode(res.data);
             setDisableToggle(false)
+            setNotification({
+                message: `Mode has been changed to ${mode}`,
+                type: "notif"
+            })
         })
     }, [])
 
@@ -51,24 +56,25 @@ export default function StatusWidget({data}: {data: any}){
     return (
         <Container marginTop="10px" marginBottom="4%">
 
-            <div style={{paddingBottom:"10px", paddingTop: "10px", backgroundColor: "#e7e7e7"}}>
-                    {data?.station_status == "Online" ?  
+            <div style={{paddingBottom:"10px", paddingTop: "10px", paddingLeft:"15px",  backgroundColor: "#e7e7e7"}}>
+            
+                    {data?.station_status == "Online" ? 
                     <div style ={{
                         height: "40px",
                         width: "40px",
                         borderRadius: "50%",
-                        border: "10px solid #45e336",
+                        border: "15px solid #45e336",
                         display: "inline-block",
-                    }}
-                    /> : 
+                    }}/> 
+                    :
                     <div style ={{
-                        height: "40px",
-                        width: "40px",
+                        height: "60px",
+                        width: "60px",
                         borderRadius: "50%",
                         border: "10px solid #ed1a33",
                         display: "inline-block",
-                    }}
-                    /> }
+                    }}/> 
+                     }
                 <p>Status: {data?.station_status}</p>
                 <p>Last Updated: {data?.last_update_time}</p>
                 <p>Uptime: {(data.uptime / 60).toFixed(2)} hours </p>
@@ -88,7 +94,9 @@ export default function StatusWidget({data}: {data: any}){
             </div>
             <h4 style={{
                 height: "40px",
-                backgroundColor: "lightgray"
+                backgroundColor: "lightgray",
+                fontWeight: 'bold',
+                fontSize: "17px"
             }}>Status Widget</h4>
         </Container>
     )

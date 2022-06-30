@@ -11,7 +11,9 @@ import {
     Th,
     Td,
     Button,
+    Box,
     Table,
+    useBreakpointValue,
  } from "@chakra-ui/react";
 
 import {
@@ -49,7 +51,15 @@ type GraphData = {
         battery_percentage: number[],
 }
 
-function Graph({labels, data, title, options}: {labels: any[], data: number[], title: string, options: any}){
+type filterState =
+    | "day"
+    | "week"
+    | "month"
+    | "year"
+    | "null"
+    ;
+
+function Graph({labels, data, title, options, w}: {labels: any[], data: number[], title: string, options: any, w: string}){
     let plt_data ={
         labels,
         datasets: [{
@@ -60,36 +70,79 @@ function Graph({labels, data, title, options}: {labels: any[], data: number[], t
         }]
     } 
     // options.plugins.title.text = title;
-    return <Line width="50%" height="20%"  options={options} data={plt_data} />
+    return <div style={{width: w, height: "300px"}}><Line options={options} data={plt_data} /></div>
 }
 
-function Graphs({labels, data, options}: 
-    {labels: Date[], data: GraphData, options:any}){
+function Graphs({labels, data, options, filter}: 
+    {labels: Date[], data: GraphData, options:any, filter:filterState}){
+        const graphW = useBreakpointValue({sm: "500px",  md:"500px", lg:"500px", '2xl':"650px"});
         let newLabels: string[] = [];
+
+        let skipInterval  = {
+            "day": 0,
+            "week": 3,
+            "month": 8,
+            "year": 15,
+            "null" : 15
+        };
+        
         labels.forEach((value: Date, index: number) => {
-            if (index % 15 == 0){
+            if (index % (skipInterval[filter]+1) == 0){
                 newLabels.push(value.toDateString().slice(4))
             }else{
                 newLabels.push("")
             }
         })
-    return (<div style={{
-    }}>
-           {Object.keys(data).filter(k => k != "datetime").map((key, index) => 
+
+    return (<div>
+        {Object.keys(data).filter(k => k != "datetime").map((key, index, arr) =>{
+            if (index % 2 != 0){
+                return;
+            }
+            if(index == arr.length - 1){
+                return(
+                <Center><Graph 
+                    labels={newLabels}
+                    data={data[key]}
+                    title={key}
+                    options={options}
+                    key={index}
+                    w={graphW}
+                /></Center>)
+            }
+            let nextKey = arr[index+1];
+            return(
+            <Center key={index}>
+                <Flex direction={{base:"column", sm:"column", md:"column", lg:"row", xl: "row", '2xl': "row"  }} key={index}>
                 <Graph 
                     labels={newLabels}
                     data={data[key]}
                     title={key}
                     options={options}
                     key={index}
-                />)}
-    </div>)
+                    w={graphW}
+                />
+                <Graph 
+                    labels={newLabels}
+                    data={data[nextKey]}
+                    title={nextKey}
+                    options={options}
+                    key={index+1}
+                    w={graphW}
+                />
+            </Flex>
+            </Center> )
+        })}
+     </div>)
 }
 
 function TableView({data, labels}: {data: GraphData, labels: Date[]}){
     const pageRows = 20;
     const maxPages = Math.ceil(labels.length / pageRows);
     const [pageNumber, setPageNumber] = useState<number>(1);
+
+
+    useEffect(() => setPageNumber(1), [data]);
 
     const pageTurn = (side: number) => {
        
@@ -102,9 +155,10 @@ function TableView({data, labels}: {data: GraphData, labels: Date[]}){
 
     return(
         <div>
+            <Box overflowX="auto" >
             <TableContainer >
                 <Table variant="simple">
-                    <Tr>
+                    <Tr>    
                         <Th> S/N </Th>
                         <Th>datetime</Th>
                         <Th> ext_temp</Th>
@@ -114,7 +168,7 @@ function TableView({data, labels}: {data: GraphData, labels: Date[]}){
                         <Th> gas_resistance</Th>
                     </Tr>
 
-                        { data.ext_temp
+                        { labels.length == 0 ? null:  data.ext_temp
                         .filter((_,v) =>  (pageNumber-1)*pageRows-1 < v  && v < pageNumber*pageRows )
                         .map(( _,index) => {
                                 let nIndex = index + (pageNumber-1)*pageRows;
@@ -132,6 +186,7 @@ function TableView({data, labels}: {data: GraphData, labels: Date[]}){
                             })}
                 </Table>
             </TableContainer> 
+            </Box>
             
             <Center backgroundColor="lightgray" w="100%" >
 
@@ -160,6 +215,18 @@ export default function DataView(){
         battery_percentage: [],
     });
 
+    const [filteredData, setFilteredData] = useState<GraphData>({
+        ext_temp : [],
+        baro_pressure: [],
+        wind_speed : [],
+        humidity : [],
+        gas_resistance: [],
+        battery_percentage: [],
+    });
+
+    const [filteredLabels, setFilteredLabels] = useState<Date[]>([]);
+    const [timeFilter, setTimeFilter] = useState<filterState>("null");
+
 
     useEffect( () => {
         axios({
@@ -169,9 +236,79 @@ export default function DataView(){
         }).then( (res:any) => {
                 let recv : GraphData = res.data;
                 setData(recv);
-                setLabels(res.data.datetime.map(k => new Date(k))); 
+                setLabels(res.data.datetime.map(k => new Date(k)));
+                setTimeFilter("year");
             })
         }, [])
+
+    useEffect(() => {
+        if(timeFilter == "null"){
+            //filter is null
+            setFilteredData(data);
+            setFilteredLabels(labels);
+            return;
+        }
+
+        //get new indexes
+        let newIdxs: number[] = [];
+
+        const refDate = new Date();
+        const refDateYear = refDate.getFullYear();
+        const refDateMonth = refDate.getMonth();
+        const refDateDate= refDate.getDate();
+
+        if (timeFilter == "year"){
+            labels.forEach((date, idx) => {
+                if (date.getFullYear() == refDateYear){
+                    newIdxs.push(idx);
+                }
+            })
+        } else if (timeFilter == "month"){
+            labels.forEach((date, idx) => {
+                if (date.getMonth() == refDateMonth && date.getFullYear() == refDateYear){
+                    newIdxs.push(idx);
+                }
+            })
+        }else if(timeFilter == "week"){
+            labels.forEach((date, idx) => {
+                if (refDateDate - date.getDate() <= 7 && date.getMonth() == refDateMonth && date.getFullYear() == refDateYear){
+                    newIdxs.push(idx);
+                }
+            })
+        }else if (timeFilter == "day"){ //filter == day
+            labels.forEach((date, idx) => {
+                if (date.getDate() == refDateDate 
+                    && date.getMonth() == refDateMonth 
+                    && date.getFullYear() == refDateYear){
+                    newIdxs.push(idx);
+                }
+            })
+        }
+
+
+        let newData: GraphData = {
+            ext_temp : [],
+            baro_pressure: [],
+            wind_speed : [],
+            humidity : [],
+            gas_resistance: [],
+            battery_percentage: [],
+        };
+
+        let newLabels : Date[] = [];
+
+        //filter by new idxs
+        Object.keys(data).filter((k) => k != "datetime").forEach((k) => {
+            newData[k] = data[k].filter((_, idx:number) => newIdxs.includes(idx));
+        })
+        
+        newLabels = labels.filter((_, idx:number) => newIdxs.includes(idx));
+
+        setFilteredData(newData);
+        setFilteredLabels(newLabels);
+
+
+    }, [timeFilter, data, labels])
 
         let options = {
             responsive: true,
@@ -215,21 +352,33 @@ export default function DataView(){
                     <MenuButton backgroundColor="lightgray"  borderRadius="0px"
                         as={Button} rightIcon={<ChevronDownIcon />}>Filter By</MenuButton>
                     <MenuList>
-                        <MenuItem> Week</MenuItem>
-                        <MenuItem> Month</MenuItem>
-                        <MenuItem> Year</MenuItem>
+                        <MenuItem onClick={() => setTimeFilter("day")}> Day</MenuItem>
+                        <MenuItem onClick={() => setTimeFilter("week")}> Week</MenuItem>
+                        <MenuItem onClick={() => setTimeFilter("month")}> Month</MenuItem>
+                        <MenuItem onClick={() => setTimeFilter("year")}> Year</MenuItem>
+                        <MenuItem onClick={() => setTimeFilter("null")}> --</MenuItem>
                     </MenuList>
                 </Menu>
 
             </div>
 
+            <Center><h2>
+                        <b>{timeFilter === "null" ? 
+                            "Showing Posts from All Time" : (timeFilter == "day") ?
+                             "Showing posts from Yesterday" :  
+                             `Showing Posts from Last ${timeFilter.charAt(0).toUpperCase() + timeFilter.slice(1)}`}
+                        </b>
+                    </h2>
+            </Center>
+
            {isTable ? 
-           <Center><TableView data={data} labels={labels}/></Center>
+           <Center><TableView data={filteredData} labels={filteredLabels}/></Center>
            : <Graphs  
-                labels={labels}
-                data={data}
+                labels={filteredLabels}
+                data={filteredData}
+                filter={timeFilter}
                 options={options}/>
-                }
+            }
 
         </Flex>
        
