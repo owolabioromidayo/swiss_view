@@ -20,11 +20,19 @@ export default function StatusWidget({data, setNotification}: {data: any, setNot
         }).then((res: any) => {
             if(mode == "machine_learning"){
                 setMode("weather_api")
+                setNotification({
+                    message: `Mode has been changed to weather_api`,
+                    type: "notif"
+                })
             }else{
                 setMode("machine_learning")
+                setNotification({
+                    message: `Mode has been changed to machine_learning`,
+                    type: "notif"
+                })
             }
+            setTimeout(() => setNotification({message: null, type: "notif"}), 1000);
         })
-        setTimeout(() => setNotification({message: null, type: "notif"}), 500);
         setTimeout(() => setDisableToggle(false), 2000);
     }
 
@@ -36,10 +44,6 @@ export default function StatusWidget({data, setNotification}: {data: any, setNot
         }).then((res: any) => {
             setMode(res.data);
             setDisableToggle(false)
-            setNotification({
-                message: `Mode has been changed to ${mode}`,
-                type: "notif"
-            })
         })
     }, [])
 

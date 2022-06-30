@@ -19,7 +19,7 @@ export default function MLWidget({data, setNotification}: {data: any, setNotific
                                 is a number that is greater than 2 and try again.`,
                     type: "error"
                 })
-                setTimeout(() => setNotification({message: null, type: "notif"}), 500);
+                setTimeout(() => setNotification({message: null, type: "notif"}), 1000);
 
             }
 
@@ -35,7 +35,7 @@ export default function MLWidget({data, setNotification}: {data: any, setNotific
                         message: `Training Frequency has been updated!`,
                         type: "notif"
                     })
-                    setTimeout(() => setNotification({message: null, type: "notif"}), 500);
+                    setTimeout(() => setNotification({message: null, type: "notif"}), 1000);
                 })
             }
     } 
