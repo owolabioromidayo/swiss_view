@@ -1,6 +1,6 @@
 import { Flex, Alert, AlertIcon, AlertTitle, Box, Heading, SimpleGrid, Image, Text } from "@chakra-ui/react";
-import { useBreakpointValue } from '@chakra-ui/react'
-import { time } from "console";
+// import { useBreakpointValue } from '@chakra-ui/react'
+// import { time } from "console";
 
 export default function WeatherWidget({data, uv}: {data: any, uv: any}){
     // const imSize = useBreakpointValue({base: "200px", md:"200px", sm:"200px"})
