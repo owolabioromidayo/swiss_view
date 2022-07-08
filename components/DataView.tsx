@@ -14,7 +14,6 @@ import {
     Box,
     Table,
     useBreakpointValue,
-    Text,
  } from "@chakra-ui/react";
 
 import {
@@ -60,7 +59,7 @@ type filterState =
     | "null"
     ;
 
-function Graph({labels, data, title, options}: {labels: any[], data: number[], title: string, options: any}){
+function Graph({labels, data, title, options, w}: {labels: any[], data: number[], title: string, options: any, w: string}){
     let plt_data ={
         labels,
         datasets: [{
@@ -71,7 +70,7 @@ function Graph({labels, data, title, options}: {labels: any[], data: number[], t
         }]
     } 
     // options.plugins.title.text = title;
-    return <div style={{width: "350px", height: "300px"}}><Line options={options} data={plt_data} /></div>
+    return <div style={{width: w, height: "300px"}}><Line options={options} data={plt_data} /></div>
 }
 
 function Graphs({labels, data, options, filter}: 
@@ -95,7 +94,7 @@ function Graphs({labels, data, options, filter}:
             }
         })
 
-    return (<Box ml={-60}>
+    return (<div>
         {Object.keys(data).filter(k => k != "datetime").map((key, index, arr) =>{
             if (index % 2 != 0){
                 return;
@@ -108,7 +107,7 @@ function Graphs({labels, data, options, filter}:
                     title={key}
                     options={options}
                     key={index}
-                   
+                    w={graphW}
                 /></Center>)
             }
             let nextKey = arr[index+1];
@@ -121,6 +120,7 @@ function Graphs({labels, data, options, filter}:
                     title={key}
                     options={options}
                     key={index}
+                    w={graphW}
                 />
                 <Graph 
                     labels={newLabels}
@@ -128,11 +128,12 @@ function Graphs({labels, data, options, filter}:
                     title={nextKey}
                     options={options}
                     key={index+1}
+                    w={graphW}
                 />
             </Flex>
             </Center> )
         })}
-     </Box>)
+     </div>)
 }
 
 function TableView({data, labels}: {data: GraphData, labels: Date[]}){
@@ -153,8 +154,8 @@ function TableView({data, labels}: {data: GraphData, labels: Date[]}){
     }
 
     return(
-        <Center>
-            <Box overflowX="auto" w={80} >
+        <div>
+            <Box overflowX="auto" >
             <TableContainer >
                 <Table variant="simple">
                     <Tr>    
@@ -198,7 +199,7 @@ function TableView({data, labels}: {data: GraphData, labels: Date[]}){
                 icon={<ArrowForwardIcon />} onClick={() => pageTurn(1)} w={6} h={6}/>
             </Center>
     
-        </Center>
+        </div>
     )
 }
 
@@ -332,7 +333,7 @@ export default function DataView(){
         };
         
     return(
-        <Flex  direction="column" mt={20} ml={-20}>
+        <Flex  direction="column" margin="0% 10% 2% 10%" padding="10% 0px 30px 0px">
             <div style={{
                 backgroundColor: "#e7e7e7",
                 width: "100%",
@@ -361,14 +362,14 @@ export default function DataView(){
 
             </div>
 
-            <Flex px={6}><Text fontWeight={600} fontSize={20}>
-                        {timeFilter === "null" ? 
-                            "Showing Graphs from All Time" : (timeFilter == "day") ?
-                             "Showing Graphs from Yesterday" :  
-                             `Showing Graphs from Last ${timeFilter.charAt(0).toUpperCase() + timeFilter.slice(1)}`}
-                        
-                    </Text>
-            </Flex>
+            <Center><h2>
+                        <b>{timeFilter === "null" ? 
+                            "Showing Posts from All Time" : (timeFilter == "day") ?
+                             "Showing posts from Yesterday" :  
+                             `Showing Posts from Last ${timeFilter.charAt(0).toUpperCase() + timeFilter.slice(1)}`}
+                        </b>
+                    </h2>
+            </Center>
 
            {isTable ? 
            <Center><TableView data={filteredData} labels={filteredLabels}/></Center>
