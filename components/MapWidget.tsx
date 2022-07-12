@@ -108,7 +108,7 @@ const MapContainer: React.FunctionComponent = () => {
 
   return (
     // <div style={{ display: "flex", height: "300px", width:"1200px", marginTop: "-80px" }}>
-      <Flex h="300px" w="700px" ml={-80} >
+      <Flex h={{ base: "200px", md: "300px" }} w={{ base: "350px", md: "700px"}} ml={{base: 0, lg: -80}} mr={{ base: -20, md: -16}}>
       <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''} render={render}>
         <Map
           center={center}

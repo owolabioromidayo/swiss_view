@@ -40,7 +40,7 @@ export default function WeatherWidget({data, uv}: {data: any, uv: any}){
 
         <Flex justifyContent="space-between">
               <SimpleGrid
-                columns={{ base: 1, md: 2 }}
+                columns={{ base: 1, md: 2, lg: 2 }}
                 spacing={{ base: 10, md: 10 }}
                 mt={10}
                 ml={-16}
@@ -50,7 +50,7 @@ export default function WeatherWidget({data, uv}: {data: any, uv: any}){
                   pl={2}
                   pr={4}
                   w={80}
-                  h={20}
+                  h={28}
                   borderRadius="md"
                 >
                   <Flex direction="row" align="center" mt={2}>
@@ -62,7 +62,9 @@ export default function WeatherWidget({data, uv}: {data: any, uv: any}){
                       <Heading fontWeight={500}>
                         {data.wind_speed}km/h
                       </Heading>
+                      <Text mt={2} >Direction: {data.wind_direction} </Text>
                     </Flex>
+                    
                   </Flex>
                 </Box>
 
@@ -92,7 +94,7 @@ export default function WeatherWidget({data, uv}: {data: any, uv: any}){
                   pl={2}
                   pr={4}
                   w={80}
-                  h={20}
+                  h={28}
                   borderRadius="md"
                 >
                   <Flex direction="row" align="center" mt={2}>
@@ -122,7 +124,7 @@ export default function WeatherWidget({data, uv}: {data: any, uv: any}){
                     <Image src="/humidity.png" alt="humidity" w={16} mr={5} />
                     <Flex direction="column">
                       <Text fontWeight={400} fontSize={14} color="gray.500">
-                        Wind Speed
+                        Humidity
                       </Text>
                       <Heading fontWeight={500}>
                         {data.humidity}%

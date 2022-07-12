@@ -12,7 +12,7 @@ export default function NavLink({ link, ...rest }) {
         <Flex
           align="center"
           p="4"
-          mx="4"
+          mx="1"
           borderRadius="lg"
           role="group"
           cursor="pointer"

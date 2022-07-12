@@ -7,10 +7,10 @@ export default function Layout({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Center>
-    <Box minH="100vh" w='1400px'>
+    <Box minH="100vh" w={{ base: 'full', lg: '1440px'}}>
       <SideBar
         onClose={() => onClose}
-        display={{ base: "none", md: "block" }}
+        display={{ base: "none", lg: "block" }}
       />
       <Drawer
         autoFocus={false}
@@ -28,7 +28,7 @@ export default function Layout({ children }) {
 
       {/*= Header =*/}
       <Header onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} px={20}>
+      <Box ml={{ base: 0, lg: 60 }} px={20}>
         {children}
       </Box>
     </Box>
