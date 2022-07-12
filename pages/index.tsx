@@ -38,6 +38,7 @@ const Home: NextPage = () => {
   });
 
   const [welcome, setWelcome] = useState<boolean>(true);
+  const [showMap, setShowMap] = useState<boolean>(false);
   const [gasResistance, setGasResistance] = useState<number>(0);
   const [precipitation, setPrecipitation] = useState<number>(0);
   const [uv, setUV] = useState<number>(0);
@@ -102,6 +103,7 @@ const Home: NextPage = () => {
 
     // setTimeout(() => setWelcome(false), 1000)left ;
     setWelcome(false);
+    setTimeout(() => setShowMap(true), 6000);
   }, []);
 
   const time = new Date().toLocaleTimeString([], {
@@ -123,8 +125,16 @@ const Home: NextPage = () => {
             <WeatherWidget data={weatherData} uv={uv} />
 
 
-            <Flex justify="center" mt={20} ml={{ base: -20, md: -28}} pb={20} borderRadius="md">
-              <MapWidget />
+            <Flex 
+              justify="center" 
+              mt={20} 
+              ml={{ base: -23, md: -31}} 
+              pb={20} 
+              borderRadius="md"
+            >
+              <Flex display={showMap? "contents": "none"}>
+                <MapWidget  />
+              </Flex>
             </Flex>
 
             <Flex ml={{ base: -5, md: 16, lg: 60}}>
@@ -153,10 +163,10 @@ const Home: NextPage = () => {
                       fontSize={20}
                       mb={2}
                     >
-                      Oromidayo Owolabi
+                      {process.env.NEXT_PUBLIC_FULL_NAME}
                     </Heading>
                     <Text color="white" fontWeight={400} fontSize={16}>
-                      Ibadan, Nigeria
+                      {process.env.NEXT_PUBLIC_YOUR_LOCATION}
                     </Text>
                   </Flex>
 
