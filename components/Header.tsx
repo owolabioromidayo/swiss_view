@@ -41,7 +41,7 @@ export default function Header({ onOpen, ...rest }) {
   let year = newDate.getFullYear();
   return (
     <Flex
-      ml={{ base: 0, md: 60 }}
+      ml={{ base: 0, lg: 44 }}
       px="4"
       position="sticky"
       top="0"
@@ -55,7 +55,7 @@ export default function Header({ onOpen, ...rest }) {
       {...rest}
     >
       <IconButton
-        display={{ base: "flex", md: "none" }}
+        display={{ base: "flex", lg: "none" }}
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"
@@ -63,13 +63,13 @@ export default function Header({ onOpen, ...rest }) {
       />
 
         <Image
-          display={{ base: "flex", md: "none" }}
+          display={{ base: "flex", lg: "none" }}
           src="/swislogo.png"
           alt="swis_logo"
           w={20}
         />
 
-      <Flex align='center' direction="column" justify='start' display={{ base: "none", md: "flex" }}>
+      <Flex align='center' direction="column" justify='start' display={{ base: "none", lg: "flex" }}>
       <Heading>
        {month}  {year}
       </Heading>

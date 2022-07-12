@@ -17,7 +17,6 @@ const LinkItems = [
   { label: "Dashboard", icon: FiHome, href: "/" },
   { label: "Maps", icon: FiMap, href: "/maps" },
   { label: "Graphs", icon: IoBarChartOutline, href: "/graphs" },
-  { label: "Calender", icon: FiCalendar, href: "/calender" },
   { label: "Settings", icon: FiSettings, href: "/settings" },
 ];
 
@@ -37,16 +36,16 @@ export default function Sidebar({ onClose, ...rest }) {
       bg="white"
       borderRight="1px"
       borderRightColor="gray.200"
-      w={{ base: "full", md: 60 }}
+      w={{ base: "full", lg: 44 }}
       pos="fixed"
       h="full"
       {...rest}
     >
       <Flex h="20" alignItems="center"  justifyContent="space-between" bg="#000A16">
-        <Flex mx={6} align='center'>
+        <Flex mx={3} align='center'>
         <Image src="/swislogo.png" alt="swis_logo" w={40}/>
         </Flex>
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} color='white' />
+        <CloseButton display={{ base: "flex", lg: "none" }} onClick={onClose} color='white' />
       </Flex>
       {LinkItems.map((link, i) => (
         <NavLink key={i} link={link} />

@@ -71,7 +71,7 @@ function Graph({labels, data, title, options}: {labels: any[], data: number[], t
         }]
     } 
     // options.plugins.title.text = title;
-    return <div style={{width: "350px", height: "300px"}}><Line options={options} data={plt_data} /></div>
+    return <Box w={{ base: "300px", md: "650px", lg: "450px"}} h={{ base: "200px", md: "300px"}}><Line options={options} data={plt_data} /></Box>
 }
 
 function Graphs({labels, data, options, filter}: 
@@ -95,7 +95,7 @@ function Graphs({labels, data, options, filter}:
             }
         })
 
-    return (<Box ml={-60}>
+    return (<Box ml={{base: 0, lg: "-300px"}}>
         {Object.keys(data).filter(k => k != "datetime").map((key, index, arr) =>{
             if (index % 2 != 0){
                 return;
@@ -332,13 +332,9 @@ export default function DataView(){
         };
         
     return(
-        <Flex  direction="column" mt={20} ml={-20}>
-            <div style={{
-                backgroundColor: "#e7e7e7",
-                width: "100%",
-                position: "relative"
-            }}>
-                <Menu>
+        <Flex  direction="column" mt={20} ml={{ base: -5, md:-14}}>
+            <Box ml={{ base: -5, lg: -80}} w='300' bg='gray.200'>
+                <Menu  >
                     <MenuButton backgroundColor="lightgray" borderRadius="0px" 
                         as={Button} rightIcon={<ChevronDownIcon />}>Views</MenuButton>
                     <MenuList>
@@ -359,9 +355,9 @@ export default function DataView(){
                     </MenuList>
                 </Menu>
 
-            </div>
+            </Box>
 
-            <Flex px={6}><Text fontWeight={600} fontSize={20}>
+            <Flex px={2}><Text fontWeight={600} fontSize={20}>
                         {timeFilter === "null" ? 
                             "Showing Graphs from All Time" : (timeFilter == "day") ?
                              "Showing Graphs from Yesterday" :  

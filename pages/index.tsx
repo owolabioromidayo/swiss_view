@@ -116,22 +116,28 @@ const Home: NextPage = () => {
           <WelcomeScreen />
         ) : (
           <Layout>
-            <Heading fontSize={24} ml={-16}>
+            <Heading fontSize={24} ml={{ base: 0, md: -16 }}>
               Today Overview
             </Heading>
 
             <WeatherWidget data={weatherData} uv={uv} />
-            <DataView />
 
-            <Flex justify="center" mt={20} pb={20} borderRadius="md">
+
+            <Flex justify="center" mt={20} ml={{ base: -20, md: -28}} pb={20} borderRadius="md">
               <MapWidget />
             </Flex>
+
+            <Flex ml={{ base: -5, md: 16, lg: 60}}>
+            <DataView />
+
+            </Flex>
+
             <Spacer />
 
             {/* RIGHT-SIDEBAR CODE */}
-            <Flex justifyContent="flex-end">
+            <Flex justifyContent="flex-end" display={{ base: 'none', lg: 'flex'}}>
               <Box
-                w={80}
+                w={60}
                 mr={-20}
                 h="100vh"
                 bgImg="/swisright.png"
