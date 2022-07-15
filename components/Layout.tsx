@@ -3,7 +3,7 @@ import SideBar from "./SideBar";
 
 import { Box, Center, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
 
-export default function Layout({ children }) {
+export default function Layout({ children, page, setPage }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Center>
@@ -11,6 +11,8 @@ export default function Layout({ children }) {
       <SideBar
         onClose={() => onClose}
         display={{ base: "none", lg: "block" }}
+        page={page}
+        setPage={setPage}
       />
       <Drawer
         autoFocus={false}
@@ -22,7 +24,10 @@ export default function Layout({ children }) {
         size="full"
       >
         <DrawerContent>
-          <SideBar onClose={onClose} />
+        <SideBar onClose={onClose} 
+          page={page}
+          setPage={setPage}
+         />
         </DrawerContent>
       </Drawer>
 
