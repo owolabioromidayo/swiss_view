@@ -13,6 +13,7 @@ import {
   AlertDescription,
 } from "@chakra-ui/react";
 import MLWidget from "../components/MLWidget";
+import SettingsView from "../components/SettingsView";
 import WeatherWidget from "../components/WeatherWidget";
 import dynamic from "next/dynamic";
 import DataView from "../components/DataView";
@@ -39,6 +40,7 @@ const Home: NextPage = () => {
 
   const [welcome, setWelcome] = useState<boolean>(true);
   const [showMap, setShowMap] = useState<boolean>(false);
+  const [page, setPage] = useState<string>("/");
   const [gasResistance, setGasResistance] = useState<number>(0);
   const [precipitation, setPrecipitation] = useState<number>(0);
   const [uv, setUV] = useState<number>(0);
@@ -117,30 +119,39 @@ const Home: NextPage = () => {
         welcome ? (
           <WelcomeScreen />
         ) : (
-          <Layout>
-            <Heading fontSize={24} ml={{ base: 0, md: -16 }}>
-              Today Overview
-            </Heading>
+          <Layout page={page} setPage={setPage}>
 
-            <WeatherWidget data={weatherData} uv={uv} />
+            {page === "/"? 
+            <>
+              <Heading fontSize={24} ml={{ base: 0, md: -16 }}>
+                Today Overview
+              </Heading>
 
+              <WeatherWidget data={weatherData} uv={uv} />
 
-            <Flex 
-              justify="center" 
-              mt={20} 
-              ml={{ base: -23, md: -31}} 
-              pb={20} 
-              borderRadius="md"
-            >
-              <Flex display={showMap? "contents": "none"}>
-                <MapWidget  />
+              <Flex 
+                justify="center" 
+                mt={20} 
+                ml={{ base: -23, md: -31}} 
+                pb={20} 
+                borderRadius="md"
+              >
+                <Flex display={showMap? "contents": "none"}>
+                  <MapWidget  />
+                </Flex>
               </Flex>
-            </Flex>
 
-            <Flex ml={{ base: -5, md: 16, lg: 60}}>
-            <DataView />
+              <Flex ml={{ base: -5, md: 16, lg: 60}}>
+              <DataView />
 
-            </Flex>
+              </Flex>
+            
+            </>
+            : <></>}
+
+            {page === "/settings"? 
+            <SettingsView setNotification={setNotification} />
+            : <></>}
 
             <Spacer />
 

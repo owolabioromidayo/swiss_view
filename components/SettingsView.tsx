@@ -100,7 +100,15 @@ export default function SettingsView({ setNotification}) {
     }, [])
 
     return (
-        <Container marginTop="10px" marginBottom="4%">
+        <Flex 
+        direction="column" 
+        backgroundColor ="lightgrey" 
+        p={"5"} 
+        w={"45%"} 
+        borderRadius={"5%"} 
+        marginTop="10px" 
+        marginBottom="4%"
+        >
 
                 <p>
                     Machine Learning &nbsp;&nbsp;
@@ -111,8 +119,8 @@ export default function SettingsView({ setNotification}) {
                     isChecked={switchIsChecked}
                     />
                 </p>
-
-                <p>Training Frequency: <br/>
+                <br />
+                <p>Training Frequency: 
                     <input type="text" 
                     value={input} 
                     size={1}
@@ -127,6 +135,7 @@ export default function SettingsView({ setNotification}) {
                     </Button>
                 </p>
 
-        </Container>
+
+        </Flex>
     )
 }
