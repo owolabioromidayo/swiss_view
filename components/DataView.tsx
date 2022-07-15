@@ -14,6 +14,7 @@ import {
     Box,
     Table,
     useBreakpointValue,
+    Text,
  } from "@chakra-ui/react";
 
 import {
@@ -59,7 +60,7 @@ type filterState =
     | "null"
     ;
 
-function Graph({labels, data, title, options, w}: {labels: any[], data: number[], title: string, options: any, w: string}){
+function Graph({labels, data, title, options}: {labels: any[], data: number[], title: string, options: any}){
     let plt_data ={
         labels,
         datasets: [{
@@ -70,7 +71,7 @@ function Graph({labels, data, title, options, w}: {labels: any[], data: number[]
         }]
     } 
     // options.plugins.title.text = title;
-    return <div style={{width: w, height: "300px"}}><Line options={options} data={plt_data} /></div>
+    return <Box w={{ base: "300px", md: "650px", lg: "450px"}} h={{ base: "200px", md: "300px"}}><Line options={options} data={plt_data} /></Box>
 }
 
 function Graphs({labels, data, options, filter}: 
@@ -94,7 +95,7 @@ function Graphs({labels, data, options, filter}:
             }
         })
 
-    return (<div>
+    return (<Box ml={{base: 0, lg: "-300px"}}>
         {Object.keys(data).filter(k => k != "datetime").map((key, index, arr) =>{
             if (index % 2 != 0){
                 return;
@@ -107,20 +108,22 @@ function Graphs({labels, data, options, filter}:
                     title={key}
                     options={options}
                     key={index}
-                    w={graphW}
+                   
                 /></Center>)
             }
             let nextKey = arr[index+1];
             return(
             <Center key={index}>
-                <Flex direction={{base:"column", sm:"column", md:"column", lg:"row", xl: "row", '2xl': "row"  }} key={index}>
+                <Flex 
+                    direction={{base:"column", sm:"column", md:"column", lg:"row", xl: "row", '2xl': "row"  }} 
+                    key={index}
+                >
                 <Graph 
                     labels={newLabels}
                     data={data[key]}
                     title={key}
                     options={options}
                     key={index}
-                    w={graphW}
                 />
                 <Graph 
                     labels={newLabels}
@@ -128,12 +131,11 @@ function Graphs({labels, data, options, filter}:
                     title={nextKey}
                     options={options}
                     key={index+1}
-                    w={graphW}
                 />
             </Flex>
             </Center> )
         })}
-     </div>)
+     </Box>)
 }
 
 function TableView({data, labels}: {data: GraphData, labels: Date[]}){
@@ -153,53 +155,52 @@ function TableView({data, labels}: {data: GraphData, labels: Date[]}){
         }
     }
 
-    return(
-        <div>
-            <Box overflowX="auto" >
-            <TableContainer >
-                <Table variant="simple">
-                    <Tr>    
-                        <Th> S/N </Th>
-                        <Th>datetime</Th>
-                        <Th> ext_temp</Th>
-                        <Th> baro_pressure</Th>
-                        <Th> wind_speed </Th>
-                        <Th> battery_percentage </Th>
-                        <Th> gas_resistance</Th>
-                    </Tr>
+    return (
+    <Box ml={{base: 0, lg: "-300px"}}>
+            <Flex direction="column" overflowX={"auto"} w="100%">
+                {/* <Box overflowX="auto" w={80} > */}
+                    <TableContainer >
+                        <Table variant="simple">
+                            <Tr>    
+                                <Th> S/N </Th>
+                                <Th>datetime</Th>
+                                <Th> ext_temp</Th>
+                                <Th> baro_pressure</Th>
+                                <Th> wind_speed </Th>
+                                <Th> battery_percentage </Th>
+                                <Th> gas_resistance</Th>
+                            </Tr>
 
-                        { labels.length == 0 ? null:  data.ext_temp
-                        .filter((_,v) =>  (pageNumber-1)*pageRows-1 < v  && v < pageNumber*pageRows )
-                        .map(( _,index) => {
-                                let nIndex = index + (pageNumber-1)*pageRows;
-                                return (
-                                <Tr key={nIndex} backgroundColor={ (nIndex % 2 === 1)?"#6dc7c4" : "white"}>
-                                    <Td> {nIndex+1} </Td>
-                                    <Td>{labels[nIndex].toDateString()}</Td>
-                                    <Td> {data.ext_temp[nIndex]} </Td>
-                                    <Td> {data.baro_pressure[nIndex]} </Td>
-                                    <Td> {data.wind_speed[nIndex]} </Td>
-                                    <Td> {data.battery_percentage[nIndex]} </Td>
-                                    <Td> {data.gas_resistance[nIndex]} </Td>
-                                </Tr>
-                                )
-                            })}
-                </Table>
-            </TableContainer> 
-            </Box>
-            
-            <Center backgroundColor="lightgray" w="100%" >
+                                { labels.length == 0 ? null:  data.ext_temp
+                                .filter((_,v) =>  (pageNumber-1)*pageRows-1 < v  && v < pageNumber*pageRows )
+                                .map(( _,index) => {
+                                        let nIndex = index + (pageNumber-1)*pageRows;
+                                        return (
+                                        <Tr key={nIndex} backgroundColor={ (nIndex % 2 === 1)?"#6dc7c4" : "white"}>
+                                            <Td> {nIndex+1} </Td>
+                                            <Td>{labels[nIndex].toDateString()}</Td>
+                                            <Td> {data.ext_temp[nIndex]} </Td>
+                                            <Td> {data.baro_pressure[nIndex]} </Td>
+                                            <Td> {data.wind_speed[nIndex]} </Td>
+                                            <Td> {data.battery_percentage[nIndex]} </Td>
+                                            <Td> {data.gas_resistance[nIndex]} </Td>
+                                        </Tr>
+                                        )
+                                    })}
+                        </Table>
+                    </TableContainer> 
+                {/* </Box> */}
+                <Center backgroundColor="lightgray" w="100%" >
+                    <IconButton aria-label="left-page-turn" backgroundColor="lightgray" 
+                    icon={<ArrowBackIcon />} onClick={() => pageTurn(-1)} w={6} h={6} />
 
-                <IconButton aria-label="left-page-turn" backgroundColor="lightgray" 
-                icon={<ArrowBackIcon />} onClick={() => pageTurn(-1)} w={6} h={6} />
+                    &nbsp;&nbsp;{pageNumber} / {maxPages} pages &nbsp;&nbsp;
 
-                &nbsp;&nbsp;{pageNumber} / {maxPages} pages &nbsp;&nbsp;
-
-                <IconButton aria-label="right-page-turn" backgroundColor="lightgray" 
-                icon={<ArrowForwardIcon />} onClick={() => pageTurn(1)} w={6} h={6}/>
-            </Center>
-    
-        </div>
+                    <IconButton aria-label="right-page-turn" backgroundColor="lightgray" 
+                    icon={<ArrowForwardIcon />} onClick={() => pageTurn(1)} w={6} h={6}/>
+                </Center>
+            </Flex>
+    </Box>
     )
 }
 
@@ -333,13 +334,9 @@ export default function DataView(){
         };
         
     return(
-        <Flex  direction="column" margin="0% 10% 2% 10%" padding="10% 0px 30px 0px">
-            <div style={{
-                backgroundColor: "#e7e7e7",
-                width: "100%",
-                position: "relative"
-            }}>
-                <Menu>
+        <Flex  direction="column"  ml={{ base: -5, md:-14}}>
+            <Box ml={{ base: -5, lg: -80}} w='300' bg='gray.200'>
+                <Menu  >
                     <MenuButton backgroundColor="lightgray" borderRadius="0px" 
                         as={Button} rightIcon={<ChevronDownIcon />}>Views</MenuButton>
                     <MenuList>
@@ -360,19 +357,19 @@ export default function DataView(){
                     </MenuList>
                 </Menu>
 
-            </div>
+            </Box>
 
-            <Center><h2>
-                        <b>{timeFilter === "null" ? 
-                            "Showing Posts from All Time" : (timeFilter == "day") ?
-                             "Showing posts from Yesterday" :  
-                             `Showing Posts from Last ${timeFilter.charAt(0).toUpperCase() + timeFilter.slice(1)}`}
-                        </b>
-                    </h2>
-            </Center>
+            <Flex px={2}><Text fontWeight={600} fontSize={20}>
+                        {timeFilter === "null" ? 
+                            "Showing Graphs from All Time" : (timeFilter == "day") ?
+                             "Showing Graphs from Yesterday" :  
+                             `Showing Graphs from Last ${timeFilter.charAt(0).toUpperCase() + timeFilter.slice(1)}`}
+                        
+                    </Text>
+            </Flex>
 
            {isTable ? 
-           <Center><TableView data={filteredData} labels={filteredLabels}/></Center>
+           <TableView data={filteredData} labels={filteredLabels}/>
            : <Graphs  
                 labels={filteredLabels}
                 data={filteredData}
