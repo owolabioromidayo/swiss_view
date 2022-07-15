@@ -123,7 +123,7 @@ const Home: NextPage = () => {
             {page === "/"? 
             <>
               <Heading fontSize={24} ml={{ base: 0, md: -16 }}>
-                Today's Overview
+                Today&#39;s Overview
               </Heading>
 
               <WeatherWidget data={weatherData} uv={uv} />
