@@ -15,7 +15,7 @@ import NavLink from "./NavLink";
 
 const LinkItems = [
   { label: "Dashboard", icon: FiHome, href: "/" },
-  { label: "Maps", icon: FiMap, href: "/maps" },
+  // { label: "Maps", icon: FiMap, href: "/maps" },
   { label: "Graphs", icon: IoBarChartOutline, href: "/graphs" },
   { label: "Settings", icon: FiSettings, href: "/settings" },
 ];
