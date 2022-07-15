@@ -11,6 +11,7 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  AspectRatio,
 } from "@chakra-ui/react";
 import MLWidget from "../components/MLWidget";
 import SettingsView from "../components/SettingsView";
@@ -119,6 +120,7 @@ const Home: NextPage = () => {
         welcome ? (
           <WelcomeScreen />
         ) : (
+
           <Layout page={page} setPage={setPage}>
 
             {page === "/"? 
@@ -137,7 +139,9 @@ const Home: NextPage = () => {
                 borderRadius="md"
               >
                 <Flex display={showMap? "contents": "none"}>
-                  <MapWidget  />
+                  <AspectRatio ratio={4 / 3} w={{base: "350px", md: "680px"}} h={{ base: "200px", md: "300px"}} mt={10} ml={{ base: -16, md: -16 }} borderRadius='md' borderWidth='2px' borderColor='gray.300' >
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.2199119983507!2d3.8918724396182944!3d7.4409033119709305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x3585d348366907b9!2zN8KwMjYnMjcuOCJOIDPCsDUzJzMxLjYiRQ!5e0!3m2!1sen!2sng!4v1657699637955!5m2!1sen!2sng" width="600" height="450"  allowFullScreen loading="lazy"  />
+                </AspectRatio>
                 </Flex>
               </Flex>
 
@@ -153,10 +157,15 @@ const Home: NextPage = () => {
             <SettingsView setNotification={setNotification} />
             : <></>}
 
+
             <Spacer />
 
             {/* RIGHT-SIDEBAR CODE */}
-            <Flex justifyContent="flex-end" display={{ base: 'none', lg: 'flex'}}>
+            <Flex
+              justifyContent="flex-end"
+              display={{ base: "none", lg: "flex" }}
+              w='full'
+            >
               <Box
                 w={60}
                 mr={-20}
