@@ -1,9 +1,32 @@
 import { Flex, Alert, AlertIcon, AlertTitle, Box, Heading, SimpleGrid, Image, Text } from "@chakra-ui/react";
+import {InfoIcon} from '@chakra-ui/icons'
+
 import { useBreakpointValue } from '@chakra-ui/react'
 import { time } from "console";
+import { useState, useEffect } from "react";
 
-export default function WeatherWidget({data, uv}: {data: any, uv: any}){
+export default function WeatherWidget({data, uv}: {data: any, uv:number}){
     // const imSize = useBreakpointValue({base: "200px", md:"200px", sm:"200px"})
+    
+    const breakPoints = [2,5,7,10]
+    const colors = ["green.300", "yellow.300", "orange.300", "red.300", "purple.300"]
+    const [uvColor, setUVColor] = useState("green")
+    
+    useEffect(() => {
+      let id = 0;
+      breakPoints.forEach((v) => {
+        if (uv > v){
+          id++;
+        }
+      })
+      setUVColor(colors[id])
+      
+    }, [uv])
+
+
+  
+
+
 
     return(
         // <Container left="0px" height="100%"  marginTop="10px" marginBottom="3%">
@@ -106,10 +129,12 @@ export default function WeatherWidget({data, uv}: {data: any, uv: any}){
                       <Heading fontWeight={500}>{uv}</Heading>
                     </Flex>
                   </Flex>
-                  <Alert status={uv < 7 ? "success" : "error"} borderRadius="md" mt={2} ml={-2} w={80}>
-                    <AlertIcon />
-                    <AlertTitle>{uv < 7 ? "UV Level Good" : "UV Level High"}</AlertTitle>
-                  </Alert>
+                  <Flex backgroundColor={uvColor} borderRadius="md" mt={2} ml={-2} w={80} p={5}>
+        
+                    <InfoIcon fontSize={18} /> &nbsp;
+                    UV Level: &nbsp; <b>{uv <= 2 ? "Low" : uv <= 5? "Medium": 
+                    uv <= 7? "High" : uv <= 10? "Very High" : "Extremely High"}</b> 
+                  </Flex>
                 </Box>
 
                 <Box
