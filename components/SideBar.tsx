@@ -1,12 +1,7 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-
 import { Box, CloseButton, Flex, Text, Image } from "@chakra-ui/react";
 
 import {
   FiHome,
-  FiMap,
-  FiCalendar,
   FiSettings,
 } from "react-icons/fi";
 import { IoBarChartOutline } from "react-icons/io5"
@@ -15,20 +10,11 @@ import NavLink from "./NavLink";
 
 const LinkItems = [
   { label: "Dashboard", icon: FiHome, href: "/" },
-  { label: "Maps", icon: FiMap, href: "/maps" },
   { label: "Graphs", icon: IoBarChartOutline, href: "/graphs" },
   { label: "Settings", icon: FiSettings, href: "/settings" },
 ];
 
-export default function Sidebar({ onClose, ...rest }) {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.events.on("routeChangeComplete", onClose);
-    return () => {
-      router.events.off("routeChangeComplete", onClose);
-    };
-  }, [router.events, onClose]);
+export default function Sidebar({ onClose, page, setPage,  ...rest }) {
 
   return (
     <Box
@@ -48,7 +34,9 @@ export default function Sidebar({ onClose, ...rest }) {
         <CloseButton display={{ base: "flex", lg: "none" }} onClick={onClose} color='white' />
       </Flex>
       {LinkItems.map((link, i) => (
-        <NavLink key={i} link={link} />
+       <a key={i} onClick={ () => setPage(link.href)}>
+          <NavLink link={link} page={page} />
+       </a> 
       ))}
     </Box>
   );

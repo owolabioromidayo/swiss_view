@@ -14,6 +14,7 @@ import {
   AspectRatio,
 } from "@chakra-ui/react";
 import MLWidget from "../components/MLWidget";
+import SettingsView from "../components/SettingsView";
 import WeatherWidget from "../components/WeatherWidget";
 import dynamic from "next/dynamic";
 import DataView from "../components/DataView";
@@ -39,6 +40,8 @@ const Home: NextPage = () => {
   });
 
   const [welcome, setWelcome] = useState<boolean>(true);
+  const [showMap, setShowMap] = useState<boolean>(false);
+  const [page, setPage] = useState<string>("/");
   const [gasResistance, setGasResistance] = useState<number>(0);
   const [precipitation, setPrecipitation] = useState<number>(0);
   const [uv, setUV] = useState<number>(0);
@@ -103,6 +106,7 @@ const Home: NextPage = () => {
 
     // setTimeout(() => setWelcome(false), 1000)left ;
     setWelcome(false);
+    setTimeout(() => setShowMap(true), 6000);
   }, []);
 
   const time = new Date().toLocaleTimeString([], {
@@ -116,24 +120,46 @@ const Home: NextPage = () => {
         welcome ? (
           <WelcomeScreen />
         ) : (
-          <Layout>
+          <Layout  page={page} setPage={setPage}>
             <Flex direction='row' justify='space-between'>
             <Flex direction='column'>
-            <Heading fontSize={24} ml={{ base: 0, md: -16 }}>
-              Today Overview
-            </Heading>
-
-            <WeatherWidget data={weatherData} uv={uv} />
+            
 
 
-              {/* <MapWidget /> */}
-              <AspectRatio ratio={4 / 3} w={{base: "350px", md: "680px"}} h={{ base: "200px", md: "300px"}} mt={10} ml={{ base: -16, md: -16 }} borderRadius='md' borderWidth='2px' borderColor='gray.300' >
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.2199119983507!2d3.8918724396182944!3d7.4409033119709305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x3585d348366907b9!2zN8KwMjYnMjcuOCJOIDPCsDUzJzMxLjYiRQ!5e0!3m2!1sen!2sng!4v1657699637955!5m2!1sen!2sng" width="600" height="450"  allowFullScreen loading="lazy"  />
-              </AspectRatio>
+            {page === "/"? 
+            <>
+              <Heading fontSize={24} ml={{ base: 0, md: -16 }}>
+                Today Overview
+              </Heading>
 
-            <Flex ml={{ base: -5, md: 16, lg: 60 }}>
+              <WeatherWidget data={weatherData} uv={uv} />
+
+              <Flex 
+                justify="center" 
+                mt={20} 
+                ml={{ base: -23, md: -31}} 
+                pb={20} 
+                borderRadius="md"
+              >
+                <Flex display={showMap? "contents": "none"} >
+                  <AspectRatio ratio={4 / 3} w={{base: "350px", md: "680px"}} h={{ base: "200px", md: "300px"}} mt={10} ml={{ base: -16, md: -16, lg: -60 }} borderRadius='md' borderWidth='2px' borderColor='gray.300' >
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.2199119983507!2d3.8918724396182944!3d7.4409033119709305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x3585d348366907b9!2zN8KwMjYnMjcuOCJOIDPCsDUzJzMxLjYiRQ!5e0!3m2!1sen!2sng!4v1657699637955!5m2!1sen!2sng" width="600" height="450"  allowFullScreen loading="lazy"  />
+                </AspectRatio>
+                </Flex>
+              </Flex>
+
+              <Flex ml={{ base: -5, md: 16, lg: 60}}>
               <DataView />
-            </Flex>
+
+              </Flex>
+            
+            </>
+            : <></>}
+
+            {page === "/settings"? 
+            <SettingsView setNotification={setNotification} />
+            : <></>}
+
 
             <Spacer />
 
@@ -161,10 +187,10 @@ const Home: NextPage = () => {
                       fontSize={20}
                       mb={2}
                     >
-                      Oromidayo Owolabi
+                      {process.env.NEXT_PUBLIC_FULL_NAME}
                     </Heading>
                     <Text color="white" fontWeight={400} fontSize={16}>
-                      Ibadan, Nigeria
+                      {process.env.NEXT_PUBLIC_YOUR_LOCATION}
                     </Text>
                   </Flex>
 
