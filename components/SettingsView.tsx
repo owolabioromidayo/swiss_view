@@ -105,7 +105,7 @@ export default function SettingsView({ setNotification}) {
         backgroundColor ="lightgrey" 
         p={"5"} 
         w={"45%"} 
-        borderRadius={"5%"} 
+        borderRadius="md"
         marginTop="10px" 
         marginBottom="4%"
         >
@@ -120,7 +120,7 @@ export default function SettingsView({ setNotification}) {
                     />
                 </p>
                 <br />
-                <p>Training Frequency: 
+                <p>Training Frequency: &nbsp; 
                     <input type="text" 
                     value={input} 
                     size={1}
