@@ -36,7 +36,7 @@ export default function Sidebar({ onClose, ...rest }) {
       bg="white"
       borderRight="1px"
       borderRightColor="gray.200"
-      w={{ base: "full", lg: 44 }}
+      w={{ base: "full", lg: 60 }}
       pos="fixed"
       h="full"
       {...rest}

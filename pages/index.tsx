@@ -117,6 +117,8 @@ const Home: NextPage = () => {
           <WelcomeScreen />
         ) : (
           <Layout>
+            <Flex direction='row' justify='space-between'>
+            <Flex direction='column'>
             <Heading fontSize={24} ml={{ base: 0, md: -16 }}>
               Today Overview
             </Heading>
@@ -136,17 +138,18 @@ const Home: NextPage = () => {
             <Spacer />
 
             {/* RIGHT-SIDEBAR CODE */}
+            
+            </Flex>
+
             <Flex
-              justifyContent="flex-end"
               display={{ base: "none", lg: "flex" }}
-              w='full'
             >
               <Box
-                w={60}
-                mr={-20}
+                w={80}
                 h="100vh"
                 bgImg="/swisright.png"
                 top="0"
+                right={0}
                 zIndex={2}
                 pos="fixed"
               >
@@ -191,6 +194,7 @@ const Home: NextPage = () => {
                   </Flex>
                 </Flex>
               </Box>
+            </Flex>
             </Flex>
           </Layout>
         )
