@@ -114,18 +114,12 @@ const Home: NextPage = () => {
   return (
     <>
       {
-        welcome ? (
+        welcome ? 
           <WelcomeScreen />
-        ) : (
+         : <>
           <Layout  page={page} setPage={setPage}>
             <Flex direction='row' justify='space-between'>
             <Flex direction='column'>
-            
-
-
-          <Layout page={page} setPage={setPage}>
-            <Flex direction='row' justify='space-between'>
-              <Flex direction='column'>
 
             {page === "/"? 
             <>
@@ -232,51 +226,8 @@ const Home: NextPage = () => {
                 </Flex>
               </Box>
             </Flex>
-            </Flex>
           </Layout>
-        )
-
-        // <Flex
-        //     h='100vh'
-        //     w="100%"
-        //     direction='row'>
-        //     <Flex direction="column" w="100%">
-        //         <Notification message={notification.message} type={notification.type} />
-        //         <Flex
-        //         w={{base: "auto", md: "100%", lg: "100%"}}
-        //         direction={{base: "column", md: "column", lg: "row"}}>
-        //             <WeatherWidget data={weatherData} />
-        //             <StatusWidget data={statusData} setNotification={setNotification} />
-        //             <MLWidget data={mlData} setNotification={setNotification} />
-        //         </Flex>
-
-        //         <Flex
-        //         w={{base: "auto", md: "100%", lg: "100%"}}
-        //         paddingTop="3%"
-        //         direction={{base: "column", md: "column", lg: "row"}}>
-        //             <GasResistanceWidget gasResistance={gasResistance/100}/>
-        //             <PrecipitationWidget data={precipitation} />
-        //             <UVWidget data={uv} />
-        //         </Flex>
-
-        //         <DataView />
-        //         {/* <Flex direction="row" px="5%"
-        //         style = {{
-        //                 // "& div": {
-        //                 //     position: "relative",
-        //                 //     width: "100%",
-        //                 //     height: "200px"
-        //                 // },
-        //                 // position: "relative",
-        //                 // width: "100%",
-        //                 // height: "200px !important"
-        //                 }}> */}
-        //             <Flex justify='center' mt={20} pb={20} borderRadius=>
-        //                 <MapWidget />
-        //             </Flex>
-
-        //     </Flex>
-        // </Flex>
+          </>
       }
     </>
   );
