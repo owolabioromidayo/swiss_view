@@ -8,6 +8,7 @@ export default function Layout({ children, page, setPage }) {
   return (
     <Center>
     <Box minH="100vh" minW='full' >
+
       <SideBar
         onClose={() => onClose}
         display={{ base: "none", lg: "block" }}
@@ -34,9 +35,12 @@ export default function Layout({ children, page, setPage }) {
       {/*= Header =*/}
       <Header onOpen={onOpen} />
       
-      <Flex ml={{ base: 0, md: 0, lg: 44 }} justify='center'>
-        {children}
-      </Flex>
+
+      <Box ml={{ base: 0, md: 0, lg: 60 }}>
+        <Flex ml = {{ lg: 44}} justify='center'>
+          {children}
+        </Flex>
+      </Box>
     </Box>
     </Center>
   );
