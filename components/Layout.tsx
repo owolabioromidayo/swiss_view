@@ -7,7 +7,8 @@ export default function Layout({ children, page, setPage }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Center>
-    <Box minH="100vh" minW="full">
+    <Box minH="100vh" minW='full' >
+
       <SideBar
         onClose={() => onClose}
         display={{ base: "none", lg: "block" }}
@@ -34,6 +35,7 @@ export default function Layout({ children, page, setPage }) {
       {/*= Header =*/}
       <Header onOpen={onOpen} />
       
+
       <Box ml={{ base: 0, md: 0, lg: 60 }}>
         <Flex ml = {{ lg: 44}} justify='center'>
           {children}

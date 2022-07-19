@@ -41,7 +41,7 @@ export default function Header({ onOpen, ...rest }) {
   let year = newDate.getFullYear();
   return (
     <Flex
-      ml={{ base: 0, lg: 60}}
+      ml={{ base: 0, lg: 60 }}
       px="4"
       position="sticky"
       top="0"
