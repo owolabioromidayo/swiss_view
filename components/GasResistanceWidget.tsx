@@ -1,4 +1,4 @@
-import { Center, Container } from '@chakra-ui/react';
+import { Center, Container, Box, Text } from '@chakra-ui/react';
 import {useEffect, useState} from 'react';
 
 
@@ -46,7 +46,7 @@ export default function GasResistanceWidget({gasResistance} : {gasResistance : n
     
         <Container marginTop="10px" marginBottom="4%">
 
-                <div style={{paddingBottom:"10px", paddingTop: "10px", backgroundColor: "#e7e7e7"}}>
+                <Box bg='gray.300' p={4} borderRadius='md'>
                     <Center>
                         <div style ={{
                             height: "120px",
@@ -67,21 +67,17 @@ export default function GasResistanceWidget({gasResistance} : {gasResistance : n
                             </p>
                         </div>
                     </Center>
-                        <br />
-                    <Center>
+                    <Center mt={3}>
                         <p>Air quality is <b>{TextDetails[textProps].qualifier}</b>.</p> 
                     </Center>
                     <Center>
                         <p><b>{parseInt(gasResistance.toFixed())}</b>/500</p>
                     </Center>
-                </div>
+                </Box>
 
-            <h4 style={{
-                height: "40px",
-                backgroundColor: "lightgray",
-                fontWeight: 'bold',
-                fontSize: "17px"
-            }}>Air Quality Widget</h4>
+                <Box bg='gray.400' mt={-3} borderRadius="0 0 7px 7px" fontSize={18} px={2} >
+                    <Text align='center' fontWeight={500}>Air Quality</Text>
+            </Box>
         </Container>
     )
     

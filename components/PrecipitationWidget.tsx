@@ -1,4 +1,4 @@
-import { Container } from "@chakra-ui/react";
+import { Container, Box, Text } from "@chakra-ui/react";
 import LiquidFillGauge from 'react-liquid-gauge';
 
 
@@ -7,7 +7,7 @@ export default function PrecipitationWidget({data}: {data: number}){
 
     return (<Container marginTop="10px" marginBottom="4%">
 
-            <div style={{paddingBottom:"10px", paddingTop: "10px", backgroundColor: "#e7e7e7"}}>
+            <Box bg='gray.300' p={4} borderRadius='md' >
 
                 <LiquidFillGauge
                     style={{ margin: '0 auto' }}
@@ -53,13 +53,11 @@ export default function PrecipitationWidget({data}: {data: number}){
                         fontFamily: 'Arial'
                     }}
                 />
-            </div>
-            <h4 style={{
-                height: "40px",
-                backgroundColor: "lightgray",
-                fontWeight: 'bold',
-                fontSize: "17px"
-            }}>Precipitation Levels</h4>
+            </Box>
+            <Box bg='gray.400' mt={-3} borderRadius="0 0 7px 7px" fontSize={18} px={2} >
+                    <Text align='center' fontWeight={500}>Precipitation Levels</Text>
+            </Box>
+            
 
         </Container>)
 }
