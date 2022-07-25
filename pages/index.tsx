@@ -117,20 +117,13 @@ const Home: NextPage = () => {
         welcome ? (
           <WelcomeScreen />
         ) : (
-          <Layout  page={page} setPage={setPage}>
-            <Flex direction='row' justify='space-between'>
-            <Flex direction='column'>
-            
-
-
           <Layout page={page} setPage={setPage}>
-            <Flex direction='row' justify='space-between'>
+            <Flex direction='row' justify='space-between' align='center'>
               <Flex direction='column'>
-
-            {page === "/"? 
+            {page === "/" ? 
             <>
-              <Heading fontSize={24} ml={{ base: 0, md: -16 }}>
-                Today&#39;s Overview
+              <Heading fontSize={24} mt={2} mb={5}>
+                Today's Overview
               </Heading>
 
               <WeatherWidget data={weatherData} uv={uv} />
@@ -140,7 +133,7 @@ const Home: NextPage = () => {
                 ratio={4 / 3} 
                 w={{base: "350px", md: "680px"}} 
                 h={{ base: "200px", md: "300px"}} 
-                mt={10} ml={{ base: -16, md: -16 }} 
+                mt={10}
                 borderRadius='md' 
                 borderWidth='2px' 
                 borderColor='gray.300' 
@@ -169,20 +162,15 @@ const Home: NextPage = () => {
 
             <Spacer />
             </Flex>
+            </Flex>
 
             {/* RIGHT-SIDEBAR CODE */}
             
-            </Flex>
 
             <Flex
-              display={{ base: "none", lg: "flex" }}
-
-              // w='full'
-            >
+              display={{ base: "none", lg: "flex" }}>
               <Box
-                w={80}
-                mr={-20}
-
+                w={64}
                 h="100vh"
                 bgImg="/swisright.png"
                 top="0"
@@ -191,37 +179,45 @@ const Home: NextPage = () => {
                 pos="fixed"
               >
                 <Flex px={3} mt={2} direction="row" justify="space-between">
+                
                   <Flex direction="column">
+                    <Flex>
                     <Heading
                       color="white"
                       fontWeight={600}
                       fontSize={20}
                       mb={2}
+                      mr={7}
                     >
                       {process.env.NEXT_PUBLIC_FULL_NAME}
                     </Heading>
                     <Text color="white" fontWeight={400} fontSize={16}>
                       {process.env.NEXT_PUBLIC_YOUR_LOCATION}
                     </Text>
-                  </Flex>
-
-                  <Text color="white" fontWeight={600}>
+                    </Flex>
+                  <Text color="white" fontWeight={600} fontSize={30} mt={5} ml={12}>
                     {" "}
                     {time}{" "}
                   </Text>
+
+                  </Flex>
+
                 </Flex>
-                <Flex direction="column" mt={10}>
+                <Box px={4}>
+                <Box bg='white' borderRadius='md'>
+                <Flex direction="row" mt={10} align='center'>
                   <Image
                     src={`${process.env.NEXT_PUBLIC_REST_ENDPOINT}/weather_img`}
                     alt={weatherData?.label}
                     w={24}
                   />
-                  <Flex mx={8} align="center">
-                    <Heading color="white" fontWeight={500} mr={8}>
+                    <Heading color="#000A16" fontWeight={500}>
                       {" "}
                       {weatherData?.ext_temp}º C{" "}
                     </Heading>
-                    <Text color="white">
+                </Flex>
+                  <Flex mx={8} align="center">
+                    <Text color="#000A16" fontWeight={400} mt={-5}>
                       {" "}
                       {(weatherData?.label || "").replace(
                         /(^\w{1})|(\s+\w{1})/g,
@@ -229,9 +225,11 @@ const Home: NextPage = () => {
                       )}{" "}
                     </Text>
                   </Flex>
-                </Flex>
+                  </Box>
+                  </Box>
+
               </Box>
-            </Flex>
+
             </Flex>
           </Layout>
         )
