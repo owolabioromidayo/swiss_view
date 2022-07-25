@@ -37,7 +37,7 @@ export default function Layout({ children, page, setPage }) {
       
 
       <Box>
-        <Flex ml={{ lg: 60}} justify='start' px={4}>
+        <Flex ml={{ lg: 60}} px={4}>
           {children}
         </Flex>
       </Box>
