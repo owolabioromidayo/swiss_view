@@ -60,7 +60,7 @@ export default function WeatherWidget({data, uv}: {data: any, uv:number}){
 
         <Flex>
           <Flex direction='column' >
-              <Flex direction='row' mb={5}>
+              <Flex direction={{base: 'column' , md: 'row'}} mb={5}>
                 <Box
                   bg="gray.300"
                   pr={4}
@@ -68,6 +68,7 @@ export default function WeatherWidget({data, uv}: {data: any, uv:number}){
                   h={28}
                   borderRadius="md"
                   mr={5}
+                  mb={5}
                 >
                   <Flex direction="row" align="center" mt={2}>
                     <Image src="/wind.png" alt="wind_icon" w={16} mr={5} pl={2}/>
@@ -112,7 +113,7 @@ export default function WeatherWidget({data, uv}: {data: any, uv:number}){
                 </Box>
               </Flex>
               
-              <Flex>
+              <Flex direction={{base: 'column' , md: 'row'}}>
                 <Box
                   bg="gray.300"
                   pl={2}
@@ -120,6 +121,7 @@ export default function WeatherWidget({data, uv}: {data: any, uv:number}){
                   w={80}
                   h={28}
                   mr={5}
+                  mb={{ base: 5}}
                   borderRadius="md"
                   boxShadow='md'
 
