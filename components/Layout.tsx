@@ -36,8 +36,8 @@ export default function Layout({ children, page, setPage }) {
       <Header onOpen={onOpen} />
       
 
-      <Box ml={{ base: 0, md: 0, lg: 60 }}>
-        <Flex ml = {{ lg: 44}} justify='center'>
+      <Box>
+        <Flex ml={{ lg: 60}} px={4}>
           {children}
         </Flex>
       </Box>
