@@ -116,7 +116,7 @@ const Home: NextPage = () => {
       {
         welcome ? 
           <WelcomeScreen />
-        ) : (
+         : 
           <Layout page={page} setPage={setPage}>
             <Flex direction={{base: 'column' , lg: 'row'}} justify='space-between' align='center' w={{ base: 'full', md: 'full' }}>
             <Box
@@ -299,9 +299,8 @@ const Home: NextPage = () => {
 
             </Flex>
           </Layout>
-          </>
-      }
-    </>
+    }
+  </>
   );
 };
 export default Home;
