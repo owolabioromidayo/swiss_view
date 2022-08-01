@@ -187,8 +187,8 @@ const Home: NextPage = () => {
                 Today&apos;s Overview
               </Heading>
               
-              <WeatherWidget data={weatherData} uv={uv} />
               <StatusWidget data={statusData}  />
+              <WeatherWidget data={weatherData} uv={uv} />
               <MLWidget data={mlData} setNotification={setNotification} />
 
 
@@ -217,7 +217,7 @@ const Home: NextPage = () => {
 
             {page === "/graphs"? 
             <>
-              <Flex ml={{ base: -5, md: 16, lg: 60}}>
+              <Flex ml={{md: 16, lg: 60}}>
                 <DataView />
               </Flex>
             </>
