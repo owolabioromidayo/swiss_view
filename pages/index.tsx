@@ -180,14 +180,16 @@ const Home: NextPage = () => {
 
               </Box>
 
-              <Flex direction='column' ml={{ base: 10 }}>
+            <Flex direction='column' ml={{ base: 10 }}>
             {page === "/" ? 
             <>
               <Heading fontSize={24} mt={2} mb={5}>
                 Today&apos;s Overview
               </Heading>
-
+              
               <WeatherWidget data={weatherData} uv={uv} />
+              <StatusWidget data={statusData}  />
+              <MLWidget data={mlData} setNotification={setNotification} />
 
 
               <AspectRatio 
@@ -220,12 +222,6 @@ const Home: NextPage = () => {
               </Flex>
             </>
             : <></>}
-
-
-            {page === "/settings"? 
-            <SettingsView setNotification={setNotification} />
-            : <></>}
-
 
             <Spacer />
             </Flex>
@@ -293,10 +289,9 @@ const Home: NextPage = () => {
                     </Text>
                   </Flex>
                   </Box>
+
                   </Box>
-
               </Box>
-
             </Flex>
           </Layout>
     }
