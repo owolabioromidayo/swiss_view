@@ -9,14 +9,13 @@ export default function StatusWidget({data}: {data: any}){
         <Container marginTop="10px" marginBottom="4%">
 
             <Box bg='gray.300' p={4} borderRadius='md'>
-            {/* <div style={{paddingBottom:"10px", paddingTop: "10px", paddingLeft:"15px",  backgroundColor: "#e7e7e7"}}> */}
             
                     {data?.station_status == "Online" ? 
                     <div style ={{
-                        height: "40px",
-                        width: "40px",
+                        height: "60px",
+                        width: "60px",
                         borderRadius: "50%",
-                        border: "15px solid #45e336",
+                        border: "10px solid #45e336",
                         display: "inline-block",
                     }}/> 
                     :
