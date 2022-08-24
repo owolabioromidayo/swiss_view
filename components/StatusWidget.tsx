@@ -28,7 +28,7 @@ export default function StatusWidget({data}: {data: any}){
                     }}/> 
                      }
                 <p>Status: <b>{data?.station_status} </b></p>
-                <p>Last Updated: <b>{data?.last_update_time}</b></p>
+                <p>Last Updated (<b>Server Time</b>) : <b>{data?.last_update_time}</b></p>
                 <p>Uptime: <b>{(data.uptime / 60).toFixed(2)} hours </b></p>
                 <p>Battery Percentage: <b>{data?.battery_percentage}% </b></p>
                 <p>Update Frequency: <b>{data?.update_frequency} </b></p>
