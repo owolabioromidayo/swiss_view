@@ -114,14 +114,14 @@ const Home: NextPage = () => {
               pressure: "0"
             }
             if (recv.humidity.length >= 2){
-               newTicker.humidity = (recv.humidity[recv.humidity.length-1] - recv.humidity[recv.humidity.length-2] /  recv.humidity[recv.humidity.length-2] ).toFixed(2);
+               newTicker.humidity = ((recv.humidity[recv.humidity.length-1] - recv.humidity[recv.humidity.length-2]) /  recv.humidity[recv.humidity.length-2] ).toFixed(2);
             }
             if (recv.wind_speed.length >= 2){
-              newTicker.windSpeed = (recv.wind_speed[recv.wind_speed.length-1] - recv.wind_speed[recv.wind_speed.length-2]  /  recv.wind_speed[recv.wind_speed.length-2] ).toFixed(2);
+              newTicker.windSpeed = ((recv.wind_speed[recv.wind_speed.length-1] - recv.wind_speed[recv.wind_speed.length-2])  /  recv.wind_speed[recv.wind_speed.length-2] ).toFixed(2);
 
             }
             if (recv.baro_pressure.length >= 2){
-              newTicker.pressure= (recv.baro_pressure[recv.baro_pressure.length-1] - recv.baro_pressure[recv.baro_pressure.length-2] /  recv.baro_pressure[recv.baro_pressure.length-2] ).toFixed(2)
+              newTicker.pressure= ((recv.baro_pressure[recv.baro_pressure.length-1] - recv.baro_pressure[recv.baro_pressure.length-2]) /  recv.baro_pressure[recv.baro_pressure.length-2] ).toFixed(2)
 
             }
 
